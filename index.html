@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>A jugar de a dos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -12,14 +13,27 @@
       font-family: Arial, sans-serif;
       text-align: center;
     }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .active {
+      display: block;
+    }
+
     h1 {
       margin-top: 30vh;
       font-size: 2.2rem;
     }
+
     p {
       color: #C6B8A5;
       margin: 20px;
     }
+
     button {
       margin-top: 40px;
       padding: 14px 30px;
@@ -29,13 +43,62 @@
       color: #fff;
       font-size: 1rem;
     }
+
+    .level {
+      background: #2A2A2A;
+      margin: 20px auto;
+      padding: 30px;
+      border-radius: 14px;
+      max-width: 300px;
+    }
+
+    .locked {
+      opacity: 0.4;
+    }
   </style>
 </head>
+
 <body>
 
-  <h1>A jugar de a dos</h1>
-  <p>Una excusa para mirarse distinto.</p>
-  <button>JUGAR</button>
+  <!-- PANTALLA INICIO -->
+  <div id="home" class="screen active">
+    <h1>A jugar de a dos</h1>
+    <p>Una excusa para mirarse distinto.</p>
+    <button onclick="goToLevels()">JUGAR</button>
+  </div>
+
+  <!-- PANTALLA NIVELES -->
+  <div id="levels" class="screen">
+    <div class="level" onclick="alert('Nivel SUAVE (próximo paso)')">
+      <h2>SUAVE</h2>
+      <p>conexión</p>
+    </div>
+
+    <div class="level" onclick="alert('Nivel MEDIO (próximo paso)')">
+      <h2>MEDIO</h2>
+      <p>provocación</p>
+    </div>
+
+    <div class="level locked">
+      <h2>INTENSO</h2>
+      <p>decisión</p>
+      <small style="color:#C6B8A5;">desbloquear experiencia completa</small>
+    </div>
+
+    <button style="background:none;color:#C6B8A5;margin-top:10px;border:0;" onclick="goHome()">Volver</button>
+  </div>
+
+  <script>
+    function goToLevels() {
+      document.getElementById('home').classList.remove('active');
+      document.getElementById('levels').classList.add('active');
+    }
+
+    function goHome() {
+      document.getElementById('levels').classList.remove('active');
+      document.getElementById('home').classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
