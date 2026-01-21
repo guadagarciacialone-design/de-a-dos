@@ -1,104 +1,341 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>A jugar de a dos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body {
-      margin: 0;
-      background: #0E0E0E;
-      color: #F2F2F2;
+    :root{
+      --bg:#0E0E0E;
+      --text:#F2F2F2;
+      --muted:#C6B8A5;
+      --card:#2A2A2A;
+      --accent:#7A1E2C;
+    }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
       font-family: Arial, sans-serif;
-      text-align: center;
+      text-align:center;
+    }
+    .screen{ display:none; min-height:100vh; padding:40px 20px; box-sizing:border-box; }
+    .screen.active{ display:block; }
+
+    h1{ margin-top:20vh; font-size:2.2rem; letter-spacing:0.5px; }
+    .subtitle{ color:var(--muted); margin:18px 0 30px; }
+
+    .primary{
+      background:var(--accent);
+      color:#fff;
+      border:0;
+      padding:14px 30px;
+      border-radius:10px;
+      font-size:1rem;
+    }
+    .links{ margin-top:22px; }
+    .links span{
+      color:var(--muted);
+      margin:0 10px;
+      cursor:pointer;
+      user-select:none;
     }
 
-    .screen {
-      display: none;
-      min-height: 100vh;
-      padding: 40px 20px;
+    .level{
+      background:var(--card);
+      margin:18px auto;
+      padding:26px 20px;
+      border-radius:16px;
+      max-width:320px;
+      cursor:pointer;
+    }
+    .level h2{ margin:0; letter-spacing:1px; }
+    .level p{ margin:10px 0 0; color:var(--muted); }
+    .level.locked{ opacity:0.35; cursor:default; }
+    .level small{ display:block; margin-top:10px; color:var(--muted); }
+
+    .bigcard{
+      background:var(--card);
+      border-radius:18px;
+      max-width:520px;
+      margin:10vh auto 18px;
+      padding:34px 24px 28px;
+      box-sizing:border-box;
+    }
+    #cardText{
+      font-size:1.45rem;
+      line-height:1.45;
+      margin:0;
+      white-space:pre-line;
+    }
+    #alcoholTag{
+      display:none;
+      margin-top:16px;
+      color:var(--muted);
+      font-size:0.85rem;
     }
 
-    .active {
-      display: block;
+    .actions{ margin-top:18px; }
+    .actions button{
+      margin:8px;
+      background:none;
+      border:0;
+      color:var(--muted);
+      font-size:1rem;
+      padding:10px 14px;
+      cursor:pointer;
+    }
+    .actions button.primaryMini{
+      color:#fff;
+      background:rgba(122,30,44,0.25);
+      border-radius:10px;
     }
 
-    h1 {
-      margin-top: 30vh;
-      font-size: 2.2rem;
+    .panel{
+      max-width:420px;
+      margin:10vh auto 0;
+      text-align:left;
+      background:var(--card);
+      padding:22px 18px;
+      border-radius:16px;
+      box-sizing:border-box;
     }
-
-    p {
-      color: #C6B8A5;
-      margin: 20px;
+    .panel h2{ margin:0 0 14px; text-align:center; }
+    label{ display:block; color:var(--muted); margin:12px 0 6px; }
+    select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid #3a3a3a;
+      background:#1b1b1b;
+      color:var(--text);
+      font-size:1rem;
     }
-
-    button {
-      margin-top: 40px;
-      padding: 14px 30px;
-      border-radius: 10px;
-      border: none;
-      background: #7A1E2C;
-      color: #fff;
-      font-size: 1rem;
+    .backBtn{
+      margin-top:16px;
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:0;
+      background:rgba(198,184,165,0.12);
+      color:var(--muted);
+      font-size:1rem;
+      cursor:pointer;
     }
-
-    .level {
-      background: #2A2A2A;
-      margin: 20px auto;
-      padding: 30px;
-      border-radius: 14px;
-      max-width: 300px;
-    }
-
-    .locked {
-      opacity: 0.4;
-    }
+    .tiny{ color:var(--muted); font-size:0.9rem; line-height:1.4; }
   </style>
 </head>
-
 <body>
 
-  <!-- PANTALLA INICIO -->
-  <div id="home" class="screen active">
+  <!-- INICIO -->
+  <section id="home" class="screen active">
     <h1>A jugar de a dos</h1>
-    <p>Una excusa para mirarse distinto.</p>
-    <button onclick="goToLevels()">JUGAR</button>
-  </div>
+    <p class="subtitle">Una excusa para mirarse distinto.</p>
+    <button class="primary" onclick="goTo('levels')">JUGAR</button>
+    <div class="links">
+      <span onclick="goTo('rules')">Reglas</span>
+      <span onclick="goTo('settings')">Ajustes</span>
+    </div>
+  </section>
 
-  <!-- PANTALLA NIVELES -->
-  <div id="levels" class="screen">
-    <div class="level" onclick="alert('Nivel SUAVE (próximo paso)')">
-      <h2>SUAVE</h2>
-      <p>conexión</p>
+  <!-- NIVELES -->
+  <section id="levels" class="screen">
+    <div class="level" onclick="startLevel('suave')">
+      <h2>SUAVE</h2><p>conexión</p>
+    </div>
+    <div class="level" onclick="startLevel('medio')">
+      <h2>MEDIO</h2><p>provocación</p>
+    </div>
+    <div class="level" onclick="startLevel('intenso')">
+      <h2>INTENSO</h2><p>decisión</p>
+      <small style="opacity:.85;">(beta)</small>
     </div>
 
-    <div class="level" onclick="alert('Nivel MEDIO (próximo paso)')">
-      <h2>MEDIO</h2>
-      <p>provocación</p>
+    <button class="backBtn" onclick="goTo('home')">Volver</button>
+  </section>
+
+  <!-- JUEGO / CARTA -->
+  <section id="play" class="screen">
+    <div class="bigcard">
+      <p id="cardText"></p>
+      <div id="alcoholTag">🥃 modo alcohol</div>
     </div>
 
-    <div class="level locked">
-      <h2>INTENSO</h2>
-      <p>decisión</p>
-      <small style="color:#C6B8A5;">desbloquear experiencia completa</small>
+    <div class="actions">
+      <button class="primaryMini" onclick="nextCard()">✔ Hecho</button>
+      <button onclick="nextCard()">⏭ Pasar</button>
+      <button onclick="shuffleDeck()">🔀 Barajar</button>
+      <button onclick="goTo('levels')">↩ Niveles</button>
     </div>
+  </section>
 
-    <button style="background:none;color:#C6B8A5;margin-top:10px;border:0;" onclick="goHome()">Volver</button>
-  </div>
+  <!-- AJUSTES -->
+  <section id="settings" class="screen">
+    <div class="panel">
+      <h2>Ajustes</h2>
 
-  <script>
-    function goToLevels() {
-      document.getElementById('home').classList.remove('active');
-      document.getElementById('levels').classList.add('active');
+      <label for="alcoholMode">Modo alcohol</label>
+      <select id="alcoholMode">
+        <option value="off">Off</option>
+        <option value="sorbos">Sorbos</option>
+        <option value="shots">Shots 🥃</option>
+      </select>
+
+      <p class="tiny" style="margin-top:14px;">
+        El alcohol es opcional. Si está en Off, las cartas con 🥃 no muestran nada extra.
+      </p>
+
+      <button class="backBtn" onclick="saveSettingsAndBack()">Guardar y volver</button>
+    </div>
+  </section>
+
+  <!-- REGLAS -->
+  <section id="rules" class="screen">
+    <div class="panel">
+      <h2>Reglas</h2>
+      <p class="tiny">
+        • Se juega por turnos.<br/>
+        • Podés pasar una carta sin explicar.<br/>
+        • Todo es consensuado.<br/>
+        • El alcohol es opcional y bajo responsabilidad de los usuarios.<br/>
+      </p>
+      <button class="backBtn" onclick="goTo('home')">Volver</button>
+    </div>
+  </section>
+
+<script>
+  // ---------- Datos (40 cartas) ----------
+  const CARDS = {
+    suave: [
+      {t:"Mirá a tu pareja en silencio durante 30 segundos.", a:false},
+      {t:"Decile algo que te gusta mucho de su forma de ser.", a:false},
+      {t:"Tomale la mano y guiá el movimiento lentamente.", a:false},
+      {t:"Acercate despacio hasta quedar muy cerca… y frená ahí.", a:false},
+      {t:"Apoyá tu frente contra la suya y respiren juntos/as.", a:false},
+      {t:"Contá un recuerdo donde te haya resultado especialmente atractivo/a.", a:false},
+      {t:"Elegí una parte del cuerpo y tocala con suavidad durante 20 segundos.", a:false},
+      {t:"Sonreí sin explicar nada durante 15 segundos.", a:false},
+      {t:"Decí qué parte del momento estás disfrutando más.", a:false},
+      {t:"Miralo/a como si fuera la primera vez.", a:false},
+      {t:"Si alguno se pone nervioso, tomá un sorbo y seguí.", a:true},
+      {t:"Brinden con un sorbo y mírense sin hablar durante 10 segundos.", a:true},
+      {t:"Decile algo lindo sin usar la palabra “amor”.", a:false},
+      {t:"Cambiá de lugar lentamente.", a:false},
+      {t:"Cerrá los ojos y dejate guiar por unos segundos.", a:false},
+    ],
+    medio: [
+      {t:"Elegí el ritmo del próximo minuto.", a:false},
+      {t:"Usá solo las manos para provocar a tu pareja.", a:false},
+      {t:"Guiá a tu pareja sin usar palabras.", a:false},
+      {t:"Acercate lentamente y frená justo antes del contacto.", a:false},
+      {t:"Explorá una zona distinta a la habitual.", a:false},
+      {t:"Decí algo que te gustaría que pase esta noche.", a:false},
+      {t:"Hacé que todo sea más lento de lo normal.", a:false},
+      {t:"Cambien los roles por una ronda.", a:false},
+      {t:"Mirá fijo hasta que uno desvíe la mirada.", a:false},
+      {t:"Guiá el momento durante 30 segundos.", a:false},
+      {t:"Si dudás antes de decidir, shot y elegí.", a:true},
+      {t:"El que rompa el silencio toma un sorbo.", a:true},
+      {t:"Cada uno toma un shot. El que termine primero decide cómo sigue.", a:true},
+      {t:"Si alguno se ríe o corta el clima, shot.", a:true},
+      {t:"Decí qué te está provocando más ahora.", a:false},
+    ],
+    intenso: [
+      {t:"No se permiten palabras durante el próximo turno.", a:false},
+      {t:"Uno guía, el otro sigue sin preguntar.", a:false},
+      {t:"Tomá el control total durante un minuto.", a:false},
+      {t:"Elegí cómo y cuándo continuar.", a:false},
+      {t:"Hacé que tu pareja espere unos segundos más de lo que quiere.", a:false},
+      {t:"Mirá claro a tu pareja y decí exactamente qué querés ahora.", a:false},
+      {t:"Mantené la intensidad sin cambiar el ritmo.", a:false},
+      {t:"Quien rompa el juego, shot.", a:true},
+      {t:"Shot juntos/as. Después, uno manda el próximo turno.", a:true},
+      {t:"Shot final. Decidan si siguen… o si termina acá.", a:true},
+    ]
+  };
+
+  // ---------- Estado ----------
+  let currentLevel = null;
+  let deck = [];
+  let idx = 0;
+
+  // settings
+  function getAlcoholMode(){
+    return localStorage.getItem("alcoholMode") || "off";
+  }
+  function setAlcoholMode(v){
+    localStorage.setItem("alcoholMode", v);
+  }
+
+  // ---------- Navegación ----------
+  function goTo(id){
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    // cuando entro a settings, sincronizo el select
+    if(id === "settings"){
+      document.getElementById("alcoholMode").value = getAlcoholMode();
+    }
+  }
+
+  function saveSettingsAndBack(){
+    const v = document.getElementById("alcoholMode").value;
+    setAlcoholMode(v);
+    goTo("home");
+  }
+
+  // ---------- Juego ----------
+  function startLevel(level){
+    currentLevel = level;
+    deck = CARDS[level].map(x => ({...x})); // copia
+    shuffleDeck(true);
+    goTo("play");
+    showCurrent();
+  }
+
+  function shuffleDeck(silent){
+    // Fisher-Yates
+    for(let i=deck.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    idx = 0;
+    if(!silent) showCurrent();
+  }
+
+  function showCurrent(){
+    if(deck.length === 0){
+      document.getElementById("cardText").innerText = "No hay cartas cargadas.";
+      document.getElementById("alcoholTag").style.display = "none";
+      return;
     }
 
-    function goHome() {
-      document.getElementById('levels').classList.remove('active');
-      document.getElementById('home').classList.add('active');
+    const card = deck[idx];
+    document.getElementById("cardText").innerText = card.t;
+
+    const mode = getAlcoholMode();
+    const showAlcohol = (mode !== "off") && card.a === true;
+
+    document.getElementById("alcoholTag").style.display = showAlcohol ? "block" : "none";
+    document.getElementById("alcoholTag").innerText =
+      showAlcohol ? (mode === "shots" ? "🥃 shots activados" : "🥃 sorbos activados") : "";
+  }
+
+  function nextCard(){
+    idx++;
+    if(idx >= deck.length){
+      // terminó el mazo: remezcla y arranca de nuevo
+      shuffleDeck(true);
+      idx = 0;
     }
-  </script>
+    showCurrent();
+  }
+
+  // ---------- Init ----------
+  // aseguramos valor default
+  if(!localStorage.getItem("alcoholMode")) setAlcoholMode("off");
+</script>
 
 </body>
 </html>
