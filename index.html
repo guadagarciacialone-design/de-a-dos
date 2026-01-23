@@ -9,10 +9,17 @@
 :root{
   --bg:#121416;
   --card:#1B1E21;
+  --card2:#202429;
   --text:#F5F5F5;
   --muted:#B7B0A8;
-  --accent:#D06C5A;
   --line:#2A2D30;
+
+  /* Acentos */
+  --accent:#D06C5A;  /* coral cálido */
+  --green:#2FBF71;   /* hecho */
+  --blue:#2A7BD6;    /* masculino */
+  --violet:#8A63D2;  /* no definido */
+  --pink:#D06C5A;    /* femenino (mismo coral elegante) */
 }
 
 *{box-sizing:border-box}
@@ -24,130 +31,286 @@ body{
   color:var(--text);
 }
 
-.screen{display:none;min-height:100vh;padding:16px 16px 90px}
+.screen{
+  display:none;
+  min-height:100vh;
+  padding:16px 16px 92px;
+}
 .screen.active{display:block}
 
 header{
-  padding:12px 4px 16px;
+  padding:12px 4px 14px;
 }
 header h1{
   margin:0;
-  font-size:1.2rem;
+  font-size:1.35rem;
+  letter-spacing:.2px;
 }
 header .sub{
   color:var(--muted);
-  font-size:.9rem;
-  margin-top:4px;
+  font-size:.92rem;
+  margin-top:6px;
 }
 
 .card{
   background:var(--card);
-  border-radius:16px;
+  border-radius:18px;
   padding:16px;
   margin-bottom:14px;
-  box-shadow:0 4px 14px rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow:0 10px 22px rgba(0,0,0,.18);
+}
+
+.card.soft{
+  background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.02));
 }
 
 .cardTitle{
   color:var(--muted);
-  font-size:.75rem;
-  letter-spacing:.08em;
-  margin-bottom:6px;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:8px;
 }
 
-.mainText{
-  font-size:1.35rem;
-  line-height:1.45;
+.row{display:flex;gap:10px;align-items:center;}
+.row.wrap{flex-wrap:wrap}
+.spacer{height:10px}
+
+input, select{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#0F1113;
+  color:var(--text);
+  font-size:1rem;
+  outline:none;
 }
 
-.timerNum{
-  font-size:2.6rem;
-  margin:8px 0;
-}
-
-.row{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
+.smallNote{color:var(--muted);font-size:.9rem;line-height:1.35}
 
 .btn{
-  flex:1;
+  width:100%;
   padding:14px;
-  border-radius:12px;
-  border:none;
+  border-radius:14px;
+  border:1px solid transparent;
   font-size:1rem;
   background:var(--line);
   color:var(--text);
 }
 
-.btn.primary{
-  background:var(--accent);
+.btn.primary{background:var(--accent);}
+.btn.green{background:var(--green);}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);}
+.btn.small{padding:12px;border-radius:12px;font-size:.95rem}
+
+.btn.icon{
+  width:56px;
+  height:48px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.1rem;
 }
 
-.btn.ghost{
-  background:transparent;
-  border:1px solid var(--line);
+.pillRow{display:flex;gap:10px;flex-wrap:wrap}
+.pill{
+  flex:1;
+  min-width:140px;
+  background:var(--card2);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  padding:14px;
+  text-align:left;
+  cursor:pointer;
+}
+.pill b{display:block;font-size:1rem}
+.pill span{display:block;color:var(--muted);margin-top:6px;font-size:.9rem}
+
+.divider{
+  height:1px;
+  background:rgba(255,255,255,0.06);
+  margin:14px 0;
 }
 
-.iconBtn{
-  flex:0;
-  width:52px;
+.bigNum{
+  font-size:2.7rem;
+  letter-spacing:1px;
 }
 
+.metaLine{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--muted);
+  font-size:.9rem;
+  margin-top:2px;
+}
+
+/* Carta central con color dinámico por jugador */
+.cardGame{
+  position:relative;
+  overflow:hidden;
+}
+.cardGame::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: var(--playerTint, rgba(255,255,255,0.04));
+  opacity:0.20;
+}
+.cardGame > *{position:relative}
+.mainText{
+  font-size:1.35rem;
+  line-height:1.45;
+  margin:0;
+}
+
+/* barra inferior */
 .bottomNav{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:72px;
+  bottom:0; left:0; right:0;
+  height:76px;
   background:#0F1113;
   border-top:1px solid var(--line);
   display:flex;
+  padding-bottom:env(safe-area-inset-bottom);
 }
-
 .navItem{
   flex:1;
   text-align:center;
-  padding-top:10px;
   color:var(--muted);
-  font-size:.75rem;
+  font-size:.78rem;
+  padding-top:10px;
+  cursor:pointer;
+  user-select:none;
 }
-
 .navItem.active{color:var(--accent)}
+.navIcon{font-size:1.05rem;display:block;margin-bottom:6px}
 
-input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#0F1113;
-  color:var(--text);
-  font-size:1rem;
+.toggleRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0;
+}
+.toggleRow label{color:var(--text)}
+.switch{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.switch input{width:auto;transform:scale(1.1)}
+
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:.78rem;
+  background:rgba(255,255,255,0.06);
+  color:var(--muted);
+}
+.turnName{
+  color: var(--playerColor, var(--accent));
+  font-weight:700;
 }
 
-small{color:var(--muted)}
+/* botones de tiempo + acciones */
+.twoCol{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+@media (max-width:360px){
+  .twoCol{grid-template-columns:1fr}
+  .pill{min-width:100%}
+}
 </style>
 </head>
 
 <body>
 
-<!-- HOME -->
+<!-- INICIO -->
 <section id="home" class="screen active">
   <header>
     <h1>A jugar de a dos</h1>
-    <div class="sub">Una excusa para mirarse distinto</div>
+    <div class="sub">Minimalista, íntimo y fácil de jugar.</div>
   </header>
 
   <div class="card">
-    <div class="cardTitle">JUGADORES</div>
-    <input id="p1" placeholder="Nombre jugador 1">
-    <div style="height:10px"></div>
-    <input id="p2" placeholder="Nombre jugador 2">
-  </div>
+    <div class="cardTitle">Jugadores</div>
 
-  <div class="card">
-    <button class="btn primary" onclick="saveNames()">Comenzar</button>
+    <div class="row wrap">
+      <div style="flex:1;min-width:170px">
+        <input id="p1Name" placeholder="Nombre jugador 1" />
+      </div>
+      <div style="flex:1;min-width:170px">
+        <select id="p1Gender">
+          <option value="f">Femenino</option>
+          <option value="m">Masculino</option>
+          <option value="x">No definido</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="row wrap">
+      <div style="flex:1;min-width:170px">
+        <input id="p2Name" placeholder="Nombre jugador 2" />
+      </div>
+      <div style="flex:1;min-width:170px">
+        <select id="p2Gender">
+          <option value="m">Masculino</option>
+          <option value="f">Femenino</option>
+          <option value="x">No definido</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="btn primary" onclick="tap(()=>savePlayersAndGoModes(),'soft')">Continuar</button>
+    <div class="spacer"></div>
+    <div class="smallNote">Los nombres se guardan en tu teléfono.</div>
+  </div>
+</section>
+
+<!-- MODOS -->
+<section id="modes" class="screen">
+  <header>
+    <h1>Elegí un modo</h1>
+    <div class="sub">Podés cambiar de modo cuando quieras.</div>
+  </header>
+
+  <div class="card soft">
+    <div class="pillRow">
+      <div class="pill" onclick="tap(()=>startMode('suave'),'soft')">
+        <b>SUAVE</b>
+        <span>conexión</span>
+      </div>
+      <div class="pill" onclick="tap(()=>startMode('medio'),'soft')">
+        <b>MEDIO</b>
+        <span>provocación</span>
+      </div>
+      <div class="pill" onclick="tap(()=>startMode('intenso'),'soft')">
+        <b>INTENSO</b>
+        <span>decisión</span>
+      </div>
+      <div class="pill" onclick="tap(()=>startMode('progresivo'),'soft')">
+        <b>PROGRESIVO</b>
+        <span>sube solo</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="btn ghost" onclick="tap(()=>go('settings'),'soft')">Ir a Ajustes</button>
+    <div class="spacer"></div>
+    <button class="btn ghost" onclick="tap(()=>go('home'),'soft')">Volver</button>
   </div>
 </section>
 
@@ -155,153 +318,552 @@ small{color:var(--muted)}
 <section id="game" class="screen">
   <header>
     <h1 id="levelTxt">INTENSO</h1>
-    <div class="sub" id="turnTxt"></div>
+    <div class="sub" id="turnTxt">Turno: <span class="turnName" id="turnName"></span></div>
+    <div class="metaLine">
+      <span class="badge" id="counterTxt">Carta 1 / 1</span>
+      <span class="badge" id="modeTxt">Modo: —</span>
+    </div>
   </header>
 
-  <div class="card">
-    <div class="cardTitle" id="counterTxt"></div>
-    <div class="mainText" id="cardTxt"></div>
+  <!-- Carta -->
+  <div class="card cardGame" id="gameCard">
+    <div class="cardTitle">Carta</div>
+    <p class="mainText" id="cardTxt"></p>
   </div>
 
+  <!-- Tiempo -->
   <div class="card">
-    <div class="cardTitle">TIEMPO</div>
-    <div class="timerNum" id="timer">60</div>
-    <div class="row">
-      <button class="btn primary" onclick="startTimer()">▶ Empezar</button>
-      <button class="btn" onclick="stopTimer()">⏸ Pausar</button>
+    <div class="cardTitle">Tiempo</div>
+    <div class="bigNum" id="timerNum">60</div>
+    <div class="twoCol">
+      <button class="btn primary" onclick="tap(()=>startTimer(),'next')">▶ Empezar</button>
+      <button class="btn" onclick="tap(()=>pauseTimer(),'soft')">⏸ Pausar</button>
     </div>
   </div>
 
+  <!-- Acciones -->
   <div class="card">
-    <div class="row">
-      <button class="btn primary" onclick="next()">✔ Hecho</button>
-      <button class="btn" onclick="next()">⏭ Pasar</button>
+    <div class="twoCol">
+      <button class="btn green" onclick="tap(()=>nextCard(),'next')">✔ Hecho</button>
+      <button class="btn" onclick="tap(()=>nextCard(),'soft')">⏭ Pasar</button>
     </div>
+    <div class="spacer"></div>
     <div class="row">
-      <button class="btn iconBtn" onclick="fav()">⭐</button>
-      <button class="btn iconBtn" onclick="shuffle()">🔀</button>
+      <button class="btn icon" onclick="tap(()=>toggleFavorite(),'soft')" title="Favorito">⭐</button>
+      <button class="btn icon" onclick="tap(()=>shuffleDeck(),'soft')" title="Barajar">🔀</button>
+      <button class="btn small" style="flex:1" onclick="tap(()=>go('modes'),'soft')">Cambiar modo</button>
     </div>
   </div>
 </section>
 
+<!-- AJUSTES -->
+<section id="settings" class="screen">
+  <header>
+    <h1>Ajustes</h1>
+    <div class="sub">Haptic, sonido y alcohol opcional.</div>
+  </header>
+
+  <div class="card">
+    <div class="cardTitle">Efectos</div>
+
+    <div class="toggleRow">
+      <label for="vibeOn">Vibración</label>
+      <div class="switch">
+        <input id="vibeOn" type="checkbox" />
+      </div>
+    </div>
+
+    <div class="toggleRow">
+      <label for="soundOn">Sonidos</label>
+      <div class="switch">
+        <input id="soundOn" type="checkbox" />
+      </div>
+    </div>
+
+    <div class="toggleRow">
+      <label for="tickOn">Tick cada segundo</label>
+      <div class="switch">
+        <input id="tickOn" type="checkbox" />
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cardTitle">Modo alcohol</div>
+    <select id="alcoholMode">
+      <option value="off">Off</option>
+      <option value="sorbos">Sorbos</option>
+      <option value="shots">Shots 🥃</option>
+    </select>
+
+    <div class="divider"></div>
+
+    <button class="btn primary" onclick="tap(()=>saveSettingsAndBack(),'soft')">Guardar</button>
+    <div class="spacer"></div>
+    <button class="btn ghost" onclick="tap(()=>go('modes'),'soft')">Volver</button>
+
+    <div class="spacer"></div>
+    <div class="smallNote">
+      Nota: en iPhone, los sonidos requieren interacción (tocar un botón).<br/>
+      Todo se guarda localmente.
+    </div>
+  </div>
+</section>
+
+<!-- FAVORITOS -->
+<section id="favorites" class="screen">
+  <header>
+    <h1>Favoritos</h1>
+    <div class="sub">Tus cartas guardadas.</div>
+  </header>
+
+  <div class="card" id="favList"></div>
+  <button class="btn ghost" onclick="tap(()=>go('game'),'soft')">Volver al juego</button>
+</section>
+
 <!-- NAV -->
 <nav class="bottomNav">
-  <div class="navItem active" onclick="go('home')">Inicio</div>
-  <div class="navItem" onclick="go('game')">Juego</div>
-  <div class="navItem">Ajustes</div>
+  <div class="navItem active" id="navHome" onclick="tap(()=>go('home'),'soft')">
+    <span class="navIcon">🏠</span>Inicio
+  </div>
+  <div class="navItem" id="navModes" onclick="tap(()=>go('modes'),'soft')">
+    <span class="navIcon">🎮</span>Modos
+  </div>
+  <div class="navItem" id="navSettings" onclick="tap(()=>go('settings'),'soft')">
+    <span class="navIcon">⚙️</span>Ajustes
+  </div>
 </nav>
 
 <script>
-/* --- DATA --- */
-const cards=[
-"Uno guía, el otro sigue sin preguntar.",
-"Mirá sin tocar durante unos segundos.",
-"Acercate despacio y frená antes.",
-"Guiá el ritmo del momento.",
-"Respiren juntos/as sin hablar."
+/* =========================
+   CARTAS
+   (podés editar acá y agregar muchas)
+========================= */
+const CARDS = {
+  suave: [
+    { t:"Respiren juntos/as sin hablar.", sec:60 },
+    { t:"Decile algo que te gusta de su forma de ser." },
+    { t:"Mirá a tu pareja 20 segundos sin decir nada.", sec:20 },
+    { t:"Tomale la mano y guiá el movimiento lentamente.", sec:30 },
+    { t:"Cerrá los ojos y dejate guiar por 15 segundos.", sec:15 },
+    { t:"🥃 Brinden con un sorbo y mírense sin hablar.", a:true, sec:10 }
+  ],
+  medio: [
+    { t:"Acercate despacio y frená justo antes del contacto.", sec:15 },
+    { t:"Guiá a tu pareja sin usar palabras.", sec:30 },
+    { t:"Hacé que todo sea más lento de lo normal.", sec:30 },
+    { t:"Decí algo que te gustaría que pase esta noche." },
+    { t:"🥃 Si dudás antes de decidir, tomá un shot y elegí.", a:true },
+    { t:"🥃 El que rompa el silencio toma un sorbo.", a:true, sec:30 }
+  ],
+  intenso: [
+    { t:"Uno guía, el otro sigue sin preguntar.", sec:60 },
+    { t:"Un minuto sin palabras.", sec:60 },
+    { t:"Tomá el control del ritmo por 45 segundos.", sec:45 },
+    { t:"Decí claramente qué querés ahora." },
+    { t:"Hacé que tu pareja espere un poco más.", sec:20 },
+    { t:"🥃 Shot juntos/as. Después, uno manda el próximo turno.", a:true }
+  ]
+};
+
+// comodines opcionales
+const WILDS = [
+  { t:"COMODÍN: más lento. Repetí la última carta, pero a la mitad de velocidad." },
+  { t:"COMODÍN: silencio total por 45 segundos.", sec:45 },
+  { t:"COMODÍN: intercambio. Cambien quién guía por esta ronda." }
 ];
 
-let i=0;
-let turn=0;
-let players=[];
-let timer=null;
-let timeLeft=60;
+/* =========================
+   ESTADO
+========================= */
+let players = [
+  { name:"Jugador 1", gender:"f", color:getGenderColor("f") },
+  { name:"Jugador 2", gender:"m", color:getGenderColor("m") }
+];
+let turn = 0;
 
-/* --- NAV --- */
+let currentMode = "intenso"; // suave | medio | intenso | progresivo
+let currentLevel = "intenso"; // en progresivo va cambiando
+
+let deck = [];
+let idx = 0;
+
+let timer = null;
+let timeLeft = 60;
+
+/* =========================
+   STORAGE KEYS
+========================= */
+const K_PLAYERS = "ajdd_players_v1";
+const K_SETTINGS = "ajdd_settings_v1";
+const K_FAVS = "ajdd_favs_v1";
+
+/* =========================
+   SETTINGS DEFAULT
+========================= */
+let settings = {
+  vibe:true,
+  sound:true,
+  tick:false,
+  alcohol:"off"
+};
+
+/* =========================
+   NAV
+========================= */
+function setActiveNav(id){
+  document.getElementById("navHome").classList.remove("active");
+  document.getElementById("navModes").classList.remove("active");
+  document.getElementById("navSettings").classList.remove("active");
+  if(id==="home") document.getElementById("navHome").classList.add("active");
+  if(id==="modes" || id==="game" || id==="favorites") document.getElementById("navModes").classList.add("active");
+  if(id==="settings") document.getElementById("navSettings").classList.add("active");
+}
+
 function go(id){
- document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
- document.getElementById(id).classList.add('active');
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  setActiveNav(id);
+
+  if(id==="settings") loadSettingsUI();
+  if(id==="favorites") renderFavs();
 }
 
-/* --- INIT --- */
-function saveNames(){
- players=[
-  document.getElementById('p1').value||'Jugador 1',
-  document.getElementById('p2').value||'Jugador 2'
- ];
- go('game');
- show();
+/* =========================
+   GENDER COLORS
+========================= */
+function getGenderColor(g){
+  if(g==="f") return getComputedStyle(document.documentElement).getPropertyValue("--pink").trim() || "#D06C5A";
+  if(g==="m") return getComputedStyle(document.documentElement).getPropertyValue("--blue").trim() || "#2A7BD6";
+  return getComputedStyle(document.documentElement).getPropertyValue("--violet").trim() || "#8A63D2";
 }
 
-/* --- GAME --- */
-function show(){
- document.getElementById('cardTxt').innerText=cards[i];
- document.getElementById('counterTxt').innerText=`Carta ${i+1} / ${cards.length}`;
- document.getElementById('turnTxt').innerText=`Turno: ${players[turn]}`;
+/* =========================
+   PLAYERS
+========================= */
+function savePlayersAndGoModes(){
+  const p1n = document.getElementById("p1Name").value.trim() || "Jugador 1";
+  const p2n = document.getElementById("p2Name").value.trim() || "Jugador 2";
+  const p1g = document.getElementById("p1Gender").value;
+  const p2g = document.getElementById("p2Gender").value;
+
+  players = [
+    { name:p1n, gender:p1g, color:getGenderColor(p1g) },
+    { name:p2n, gender:p2g, color:getGenderColor(p2g) }
+  ];
+  localStorage.setItem(K_PLAYERS, JSON.stringify(players));
+  go("modes");
 }
 
-function next(){
- vibrate();
- beep();
- i=(i+1)%cards.length;
- turn=turn===0?1:0;
- stopTimer();
- timeLeft=60;
- document.getElementById('timer').innerText=timeLeft;
- show();
+function loadPlayers(){
+  try{
+    const raw = localStorage.getItem(K_PLAYERS);
+    if(!raw) return;
+    const arr = JSON.parse(raw);
+    if(Array.isArray(arr) && arr.length===2){
+      players = arr.map(p => ({
+        name: p.name || "Jugador",
+        gender: p.gender || "x",
+        color: getGenderColor(p.gender || "x")
+      }));
+    }
+  }catch(e){}
 }
 
-function shuffle(){
- cards.sort(()=>Math.random()-.5);
- i=0;
- show();
+/* =========================
+   SETTINGS
+========================= */
+function loadSettings(){
+  try{
+    const raw = localStorage.getItem(K_SETTINGS);
+    if(raw){
+      const s = JSON.parse(raw);
+      settings = { ...settings, ...s };
+    }
+  }catch(e){}
+}
+function saveSettings(){
+  localStorage.setItem(K_SETTINGS, JSON.stringify(settings));
+}
+function loadSettingsUI(){
+  document.getElementById("vibeOn").checked = !!settings.vibe;
+  document.getElementById("soundOn").checked = !!settings.sound;
+  document.getElementById("tickOn").checked = !!settings.tick;
+  document.getElementById("alcoholMode").value = settings.alcohol || "off";
+}
+function saveSettingsAndBack(){
+  settings.vibe = document.getElementById("vibeOn").checked;
+  settings.sound = document.getElementById("soundOn").checked;
+  settings.tick = document.getElementById("tickOn").checked;
+  settings.alcohol = document.getElementById("alcoholMode").value;
+  saveSettings();
+  go("modes");
 }
 
-function fav(){
- vibrate();
- alert("Guardado en favoritos");
+/* =========================
+   FX
+========================= */
+function haptic(kind="soft"){
+  if(!settings.vibe) return;
+  if(!navigator.vibrate) return;
+  const p = (kind==="next") ? [12,20,12] : (kind==="end") ? [30,30,30] : [10];
+  navigator.vibrate(p);
 }
 
-/* --- TIMER --- */
-function startTimer(){
- vibrate();
- if(timer) return;
- timer=setInterval(()=>{
-  timeLeft--;
-  document.getElementById('timer').innerText=timeLeft;
-  if(timeLeft<=0){
-    endSound();
-    stopTimer();
+let audioCtx = null;
+function tone(freq=440, dur=0.06, gain=0.03){
+  if(!settings.sound) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.value = freq;
+    g.gain.value = gain;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    setTimeout(()=>o.stop(), dur*1000);
+  }catch(e){}
+}
+
+function tap(fn, kind="soft"){
+  haptic(kind);
+  if(kind==="next") tone(520,0.05,0.028);
+  else tone(460,0.045,0.02);
+  fn();
+}
+
+/* =========================
+   DECK / MODOS
+========================= */
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
   }
- },1000);
+  return arr;
 }
 
-function stopTimer(){
- clearInterval(timer);
- timer=null;
+function buildDeck(level){
+  const base = CARDS[level].map(c=>({ ...c, level }));
+  // 1 comodín por deck
+  const wild = { ...WILDS[Math.floor(Math.random()*WILDS.length)], level, wild:true };
+  base.push(wild);
+  return shuffleArray(base);
 }
 
-/* --- FX --- */
-function vibrate(){
- if(navigator.vibrate) navigator.vibrate([15]);
+let progLevels = ["suave","medio","intenso"];
+let progIndex = 0;
+let progDecks = { suave:[], medio:[], intenso:[] };
+
+function initProgressive(){
+  progDecks.suave = buildDeck("suave");
+  progDecks.medio = buildDeck("medio");
+  progDecks.intenso = buildDeck("intenso");
+  progIndex = 0;
+  currentLevel = progLevels[progIndex];
+  deck = progDecks[currentLevel];
+  idx = 0;
 }
 
-let ctx;
-function beep(){
- try{
-  ctx=ctx||new AudioContext();
-  let o=ctx.createOscillator();
-  let g=ctx.createGain();
-  o.connect(g); g.connect(ctx.destination);
-  g.gain.value=0.03;
-  o.frequency.value=520;
-  o.start();
-  o.stop(ctx.currentTime+0.05);
- }catch(e){}
+function startMode(mode){
+  currentMode = mode;
+  turn = 0;
+  stopTimer(true);
+
+  if(mode==="progresivo"){
+    initProgressive();
+  } else {
+    currentLevel = mode;
+    deck = buildDeck(mode);
+    idx = 0;
+  }
+  go("game");
+  renderGame();
 }
 
-function endSound(){
- try{
-  ctx=ctx||new AudioContext();
-  let o=ctx.createOscillator();
-  let g=ctx.createGain();
-  o.connect(g); g.connect(ctx.destination);
-  g.gain.value=0.05;
-  o.frequency.value=300;
-  o.start();
-  o.stop(ctx.currentTime+0.15);
- }catch(e){}
+/* =========================
+   RENDER GAME
+========================= */
+function applyPlayerTheme(){
+  const p = players[turn];
+  const card = document.getElementById("gameCard");
+  card.style.setProperty("--playerTint", p.color);
+  card.style.setProperty("--playerColor", p.color);
+  document.documentElement.style.setProperty("--playerColor", p.color);
+  document.getElementById("turnName").style.color = p.color;
 }
+
+function renderGame(){
+  const p = players[turn];
+  applyPlayerTheme();
+
+  document.getElementById("levelTxt").innerText = currentLevel.toUpperCase();
+  document.getElementById("turnName").innerText = p.name;
+
+  document.getElementById("modeTxt").innerText =
+    (currentMode==="progresivo") ? "Modo: progresivo" : `Modo: ${currentMode}`;
+
+  // carta actual
+  const c = deck[idx];
+  document.getElementById("cardTxt").innerText = c?.t || "—";
+  document.getElementById("counterTxt").innerText = `Carta ${idx+1} / ${deck.length}`;
+
+  // timer por carta
+  const seconds = c?.sec ? Number(c.sec) : 60;
+  timeLeft = seconds;
+  document.getElementById("timerNum").innerText = timeLeft;
+}
+
+function nextCard(){
+  // alcohol: solo muestra “aplica” por comportamiento de la carta (no popup invasivo)
+  // turn swap
+  turn = (turn===0)?1:0;
+
+  idx++;
+
+  if(idx >= deck.length){
+    if(currentMode==="progresivo"){
+      progIndex++;
+      if(progIndex >= progLevels.length){
+        // reinicia progresivo
+        initProgressive();
+      } else {
+        currentLevel = progLevels[progIndex];
+        deck = progDecks[currentLevel];
+        idx = 0;
+      }
+    } else {
+      deck = buildDeck(currentLevel);
+      idx = 0;
+    }
+  }
+
+  stopTimer(true);
+  renderGame();
+}
+
+function shuffleDeck(){
+  deck = shuffleArray(deck);
+  idx = 0;
+  stopTimer(true);
+  renderGame();
+}
+
+/* =========================
+   TIMER
+========================= */
+function startTimer(){
+  if(timer) return;
+  // beep inicio
+  tone(520,0.05,0.03);
+
+  timer = setInterval(()=>{
+    timeLeft--;
+    document.getElementById("timerNum").innerText = timeLeft;
+
+    if(settings.tick && timeLeft > 0){
+      // tick muy suave
+      tone(800,0.02,0.008);
+    }
+
+    if(timeLeft <= 0){
+      // fin: sonido distinto + vibración fuerte
+      tone(280,0.14,0.05);
+      haptic("end");
+      stopTimer(false);
+    }
+  },1000);
+}
+
+function pauseTimer(){
+  stopTimer(false);
+}
+
+function stopTimer(reset){
+  if(timer){
+    clearInterval(timer);
+    timer = null;
+  }
+  if(reset){
+    // reiniciar al tiempo base de la carta actual
+    const c = deck[idx];
+    const seconds = c?.sec ? Number(c.sec) : 60;
+    timeLeft = seconds;
+    const el = document.getElementById("timerNum");
+    if(el) el.innerText = timeLeft;
+  }
+}
+
+/* =========================
+   FAVORITOS (simple)
+========================= */
+function loadFavs(){
+  try{ return JSON.parse(localStorage.getItem(K_FAVS) || "[]"); }
+  catch{ return []; }
+}
+function saveFavs(list){
+  localStorage.setItem(K_FAVS, JSON.stringify(list));
+}
+function toggleFavorite(){
+  const c = deck[idx];
+  if(!c) return;
+  const id = `${c.level}::${c.t}`;
+  const list = loadFavs();
+  const exists = list.find(x=>x.id===id);
+  if(exists){
+    saveFavs(list.filter(x=>x.id!==id));
+    alert("Quitado de favoritos");
+  } else {
+    list.push({ id, level:c.level, text:c.t });
+    saveFavs(list);
+    alert("Guardado en favoritos");
+  }
+}
+function renderFavs(){
+  const list = loadFavs();
+  const box = document.getElementById("favList");
+  if(!list.length){
+    box.innerHTML = `<div class="smallNote">Todavía no guardaste favoritos.</div>`;
+    return;
+  }
+  box.innerHTML = list.map(f=>`
+    <div style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div class="badge" style="margin-bottom:8px">${(f.level||"").toUpperCase()}</div>
+      <div style="font-size:1.05rem;line-height:1.35">${escapeHtml(f.text)}</div>
+      <div style="margin-top:10px">
+        <button class="btn small ghost" onclick="tap(()=>removeFav('${escapeAttr(f.id)}'),'soft')">Eliminar</button>
+      </div>
+    </div>
+  `).join("");
+}
+function removeFav(id){
+  const list = loadFavs();
+  saveFavs(list.filter(x=>x.id!==id));
+  renderFavs();
+}
+
+function escapeHtml(str){
+  return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+function escapeAttr(str){
+  return String(str).replaceAll("\\","\\\\").replaceAll("'","\\'");
+}
+
+/* =========================
+   INIT
+========================= */
+loadPlayers();
+loadSettings();
+
+// precargar inputs con lo guardado
+document.getElementById("p1Name").value = players[0].name || "";
+document.getElementById("p2Name").value = players[1].name || "";
+document.getElementById("p1Gender").value = players[0].gender || "f";
+document.getElementById("p2Gender").value = players[1].gender || "m";
+
+// para que no arranque “intenso” obligado, arrancamos en home -> modos
+// y si quiere, puede tocar Modos abajo.
 </script>
 
 </body>
