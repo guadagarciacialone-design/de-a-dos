@@ -7,295 +7,967 @@
 
 <style>
 :root{
-  --bg:#141617;
-  --card:#1F2225;
-  --soft:#262A2E;
-  --text:#F5F5F5;
-  --muted:#B5B0A8;
-  --green:#2FBF71;
-  --accent:#E07A5F;
-  --pink:#E07A5F;
-  --blue:#4FA3C7;
-  --violet:#8A63D2;
+--bg:#121416;
+--card:#1B1E21;
+--card2:#202429;
+--text:#F5F5F5;
+--muted:#B7B0A8;
+--line:#2A2D30;
+
+/* Acentos */
+--accent:#D06C5A; /* coral cálido */
+--green:#2FBF71; /* botón Hecho */
+--blue:#2A7BD6; /* masculino */
+--violet:#8A63D2; /* no definido */
+--pink:#D06C5A; /* femenino (coral elegante) */
+
+/* Se setea dinámico según turno */
+--playerTint: rgba(255,255,255,0.04);
+--playerColor: var(--accent);
 }
 
-/* RESET */
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,Inter,Arial,sans-serif;
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,Inter,Arial,sans-serif;
+background:var(--bg);
+color:var(--text);
 }
 
-.screen{display:none;min-height:100vh;padding:20px 20px 90px}
+.screen{
+display:none;
+min-height:100vh;
+padding:16px 16px 92px;
+}
 .screen.active{display:block}
 
-/* SPLASH */
-#splash{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  height:100vh;
-  background:var(--bg);
+header{
+padding:12px 4px 14px;
 }
-.logo{display:flex;gap:18px;margin-bottom:20px}
-.heart{
-  width:60px;height:60px;
-  border:4px solid;
-  border-radius:16px 16px 0 0;
-  transform:rotate(-45deg);
-  position:relative;
-  animation:pulse 1.4s ease-in-out infinite;
+header h1{
+margin:0;
+font-size:1.35rem;
+letter-spacing:.2px;
 }
-.heart::before,.heart::after{
-  content:'';
-  position:absolute;
-  width:60px;height:60px;
-  border-radius:50%;
-  border:4px solid;
-}
-.heart::before{top:-30px;left:0}
-.heart::after{left:30px;top:0}
-.heart.f{border-color:var(--pink)}
-.heart.f::before,.heart.f::after{border-color:var(--pink)}
-.heart.m{border-color:var(--blue);animation-delay:.2s}
-.heart.m::before,.heart.m::after{border-color:var(--blue)}
-
-@keyframes pulse{
-  0%,100%{transform:rotate(-45deg) scale(1)}
-  50%{transform:rotate(-45deg) scale(1.08)}
+header .sub{
+color:var(--muted);
+font-size:.92rem;
+margin-top:6px;
 }
 
-/* COMPONENTES */
 .card{
-  background:var(--card);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:16px;
+background:var(--card);
+border-radius:18px;
+padding:16px;
+margin-bottom:14px;
+border:1px solid rgba(255,255,255,0.04);
+box-shadow:0 10px 22px rgba(0,0,0,.18);
 }
-.card.soft{background:var(--soft)}
-h1{margin:0;font-size:1.5rem}
-.sub{color:var(--muted);margin-top:6px}
+.card.soft{
+background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.02));
+}
 
-input,select{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:#0F1113;
-  color:var(--text);
-  margin-bottom:10px;
+.cardTitle{
+color:var(--muted);
+font-size:.72rem;
+letter-spacing:.12em;
+text-transform:uppercase;
+margin-bottom:8px;
 }
+
+.row{display:flex;gap:10px;align-items:center;}
+.row.wrap{flex-wrap:wrap}
+.spacer{height:10px}
+
+input, select{
+width:100%;
+padding:14px;
+border-radius:14px;
+border:1px solid var(--line);
+background:#0F1113;
+color:var(--text);
+font-size:1rem;
+outline:none;
+}
+
+.smallNote{color:var(--muted);font-size:.9rem;line-height:1.35}
 
 .btn{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  background:#2A2E33;
-  color:var(--text);
-  font-size:1rem;
+width:100%;
+padding:14px;
+border-radius:14px;
+border:1px solid transparent;
+font-size:1rem;
+background:var(--line);
+color:var(--text);
 }
-.btn.primary{background:var(--accent)}
-.btn.green{background:var(--green)}
-.btn.ghost{background:transparent;border:1px solid #333}
+.btn.primary{background:var(--accent);}
+.btn.green{background:var(--green);}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);}
+.btn.small{padding:12px;border-radius:12px;font-size:.95rem}
 
-.row{display:flex;gap:10px}
-.big{font-size:2.5rem}
-
-/* NAV */
-nav{
-  position:fixed;
-  bottom:0;left:0;right:0;
-  height:72px;
-  background:#0F1113;
-  border-top:1px solid #333;
-  display:flex;
+.btn.icon{
+width:56px;
+height:48px;
+padding:0;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:1.1rem;
 }
-nav div{
-  flex:1;
-  text-align:center;
-  padding-top:10px;
-  color:var(--muted);
-  font-size:.8rem;
-}
-nav div.active{color:var(--accent)}
 
-/* GAME */
+.pillRow{display:flex;gap:10px;flex-wrap:wrap}
+.pill{
+flex:1;
+min-width:140px;
+background:var(--card2);
+border:1px solid rgba(255,255,255,0.06);
+border-radius:16px;
+padding:14px;
+text-align:left;
+cursor:pointer;
+}
+.pill b{display:block;font-size:1rem}
+.pill span{display:block;color:var(--muted);margin-top:6px;font-size:.9rem}
+
+.divider{
+height:1px;
+background:rgba(255,255,255,0.06);
+margin:14px 0;
+}
+
+.bigNum{
+font-size:2.7rem;
+letter-spacing:1px;
+}
+
+.metaLine{
+display:flex;
+justify-content:space-between;
+gap:10px;
+color:var(--muted);
+font-size:.9rem;
+margin-top:2px;
+}
+
+.badge{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:.78rem;
+background:rgba(255,255,255,0.06);
+color:var(--muted);
+}
+
+/* Carta central con color dinámico por jugador */
 .cardGame{
-  border-left:6px solid var(--playerColor);
+position:relative;
+overflow:hidden;
 }
-.turn{
-  font-weight:700;
-  color:var(--playerColor);
+.cardGame::before{
+content:"";
+position:absolute;
+inset:0;
+background: var(--playerTint);
+opacity:0.22;
+}
+.cardGame > *{position:relative}
+.mainText{
+font-size:1.35rem;
+line-height:1.45;
+margin:0;
+}
+.turnName{
+color: var(--playerColor);
+font-weight:800;
+}
+
+/* botones */
+.twoCol{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+/* barra inferior */
+.bottomNav{
+position:fixed;
+bottom:0; left:0; right:0;
+height:76px;
+background:#0F1113;
+border-top:1px solid var(--line);
+display:flex;
+padding-bottom:env(safe-area-inset-bottom);
+}
+.navItem{
+flex:1;
+text-align:center;
+color:var(--muted);
+font-size:.78rem;
+padding-top:10px;
+cursor:pointer;
+user-select:none;
+}
+.navItem.active{color:var(--accent)}
+.navIcon{font-size:1.05rem;display:block;margin-bottom:6px}
+
+/* ajustes toggles */
+.toggleRow{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+padding:12px 0;
+}
+.switch input{width:auto;transform:scale(1.1)}
+
+/* Responsive */
+@media (max-width:360px){
+.twoCol{grid-template-columns:1fr}
+.pill{min-width:100%}
+}
+
+/* =========================
+SPLASH (overlay)
+========================= */
+#splash{
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+gap:10px;
+background:var(--bg);
+z-index:9999;
+opacity:1;
+transition:opacity .55s ease;
+}
+#splash.hide{opacity:0; pointer-events:none;}
+
+.logoWrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:14px;
+}
+
+.hearts{
+display:flex;
+gap:18px;
+align-items:center;
+justify-content:center;
+height:84px;
+}
+
+/* corazones minimal */
+.heart{
+width:54px;height:54px;
+position:relative;
+transform:rotate(-45deg);
+border-radius:14px 14px 0 0;
+border:4px solid var(--accent);
+animation:heartPulse 1.25s ease-in-out infinite;
+filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));
+}
+.heart::before,.heart::after{
+content:"";
+position:absolute;
+width:54px;height:54px;
+border-radius:50%;
+border:4px solid var(--accent);
+}
+.heart::before{top:-27px;left:0}
+.heart::after{top:0;left:27px}
+
+/* segundo corazón con delay + color */
+.heart.b{
+border-color:var(--blue);
+animation-delay:.18s;
+}
+.heart.b::before,.heart.b::after{border-color:var(--blue)}
+
+/* “cargando” animado */
+.loadingDots{
+color:var(--muted);
+font-size:.95rem;
+}
+.loadingDots span{
+display:inline-block;
+width:6px;
+animation:dots 1.2s infinite;
+}
+.loadingDots span:nth-child(2){animation-delay:.15s}
+.loadingDots span:nth-child(3){animation-delay:.30s}
+
+@keyframes heartPulse{
+0%,100%{transform:rotate(-45deg) translateY(0) scale(1)}
+50%{transform:rotate(-45deg) translateY(-2px) scale(1.08)}
+}
+@keyframes dots{
+0%,100%{opacity:.25; transform:translateY(0)}
+50%{opacity:1; transform:translateY(-2px)}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
-<section id="splash" class="screen active">
-  <div class="logo">
-    <div class="heart f"></div>
-    <div class="heart m"></div>
-  </div>
-  <h1>A jugar de a dos</h1>
-  <div class="sub">cargando…</div>
+<!-- SPLASH OVERLAY -->
+<div id="splash">
+<div class="logoWrap">
+<!-- Si después querés usar una imagen real:
+subila como "logo.png" al repo y descomentá esto:
+<img src="logo.png" alt="A jugar de a dos" style="width:140px;height:auto;border-radius:18px">
+-->
+<div class="hearts" aria-hidden="true">
+<div class="heart a"></div>
+<div class="heart b"></div>
+</div>
+
+<div style="text-align:center;">
+<div style="font-size:1.25rem;font-weight:800;">A jugar de a dos</div>
+<div class="loadingDots">cargando<span>.</span><span>.</span><span>.</span></div>
+</div>
+</div>
+</div>
+
+<!-- INICIO -->
+<section id="home" class="screen active">
+<header>
+<h1>A jugar de a dos</h1>
+<div class="sub">Minimalista, íntimo y fácil de jugar.</div>
+</header>
+
+<div class="card">
+<div class="cardTitle">Jugadores</div>
+
+<div class="row wrap">
+<div style="flex:1;min-width:170px">
+<input id="p1Name" placeholder="Nombre jugador 1" />
+</div>
+<div style="flex:1;min-width:170px">
+<select id="p1Gender">
+<option value="f">Femenino</option>
+<option value="m">Masculino</option>
+<option value="x">No definido</option>
+</select>
+</div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="row wrap">
+<div style="flex:1;min-width:170px">
+<input id="p2Name" placeholder="Nombre jugador 2" />
+</div>
+<div style="flex:1;min-width:170px">
+<select id="p2Gender">
+<option value="m">Masculino</option>
+<option value="f">Femenino</option>
+<option value="x">No definido</option>
+</select>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<button class="btn primary" onclick="tap(()=>savePlayersAndGoModes(),'soft')">Continuar</button>
+<div class="spacer"></div>
+<div class="smallNote">Los nombres se guardan en tu teléfono.</div>
+</div>
 </section>
 
-<!-- HOME -->
-<section id="home" class="screen">
-  <h1>Jugadores</h1>
-  <div class="sub">Elegí nombre y género</div>
-
-  <div class="card">
-    <input id="p1Name" placeholder="Jugador 1">
-    <select id="p1Gender">
-      <option value="f">Femenino</option>
-      <option value="m">Masculino</option>
-      <option value="x">No definido</option>
-    </select>
-
-    <input id="p2Name" placeholder="Jugador 2">
-    <select id="p2Gender">
-      <option value="m">Masculino</option>
-      <option value="f">Femenino</option>
-      <option value="x">No definido</option>
-    </select>
-
-    <button class="btn primary" onclick="savePlayers()">Continuar</button>
-  </div>
-</section>
-
-<!-- MODES -->
+<!-- MODOS -->
 <section id="modes" class="screen">
-  <h1>Modo de juego</h1>
-  <div class="sub">Elegí cómo quieren jugar</div>
+<header>
+<h1>Elegí un modo</h1>
+<div class="sub">Podés cambiar de modo cuando quieras.</div>
+</header>
 
-  <div class="card soft">
-    <button class="btn" onclick="start('suave')">SUAVE · conexión</button><br><br>
-    <button class="btn" onclick="start('medio')">MEDIO · provocación</button><br><br>
-    <button class="btn" onclick="start('intenso')">INTENSO · decisión</button><br><br>
-    <button class="btn" onclick="start('progresivo')">PROGRESIVO · sube solo</button>
-  </div>
+<div class="card soft">
+<div class="pillRow">
+<div class="pill" onclick="tap(()=>startMode('suave'),'soft')">
+<b>SUAVE</b>
+<span>conexión</span>
+</div>
+<div class="pill" onclick="tap(()=>startMode('medio'),'soft')">
+<b>MEDIO</b>
+<span>provocación</span>
+</div>
+<div class="pill" onclick="tap(()=>startMode('intenso'),'soft')">
+<b>INTENSO</b>
+<span>decisión</span>
+</div>
+<div class="pill" onclick="tap(()=>startMode('progresivo'),'soft')">
+<b>PROGRESIVO</b>
+<span>sube solo</span>
+</div>
+</div>
+
+<div class="divider"></div>
+
+<button class="btn ghost" onclick="tap(()=>go('settings'),'soft')">Ir a Ajustes</button>
+<div class="spacer"></div>
+<button class="btn ghost" onclick="tap(()=>go('home'),'soft')">Volver</button>
+</div>
 </section>
 
-<!-- GAME -->
+<!-- JUEGO -->
 <section id="game" class="screen">
-  <h1 id="level">INTENSO</h1>
-  <div>Turno: <span class="turn" id="turnName"></span></div>
+<header>
+<h1 id="levelTxt">INTENSO</h1>
+<div class="sub">Turno: <span class="turnName" id="turnName"></span></div>
+<div class="metaLine">
+<span class="badge" id="counterTxt">Carta 1 / 1</span>
+<span class="badge" id="modeTxt">Modo: —</span>
+</div>
+</header>
 
-  <div class="card cardGame">
-    <p id="cardText"></p>
-  </div>
+<div class="card cardGame" id="gameCard">
+<div class="cardTitle">Carta</div>
+<p class="mainText" id="cardTxt"></p>
+</div>
 
-  <div class="card">
-    <div class="big" id="timer">60</div>
-    <div class="row">
-      <button class="btn primary" onclick="startTimer()">▶ Empezar</button>
-      <button class="btn" onclick="pauseTimer()">⏸ Pausar</button>
-    </div>
-  </div>
+<div class="card">
+<div class="cardTitle">Tiempo</div>
+<div class="bigNum" id="timerNum">60</div>
+<div class="twoCol">
+<button class="btn primary" onclick="tap(()=>startTimer(),'next')">▶ Empezar</button>
+<button class="btn" onclick="tap(()=>pauseTimer(),'soft')">⏸ Pausar</button>
+</div>
+</div>
 
-  <div class="card">
-    <div class="row">
-      <button class="btn green" onclick="next()">✔ Hecho</button>
-      <button class="btn" onclick="next()">⏭ Pasar</button>
-    </div>
-  </div>
+<div class="card">
+<div class="twoCol">
+<button class="btn green" onclick="tap(()=>nextCard(),'next')">✔ Hecho</button>
+<button class="btn" onclick="tap(()=>nextCard(),'soft')">⏭ Pasar</button>
+</div>
+<div class="spacer"></div>
+<div class="row">
+<button class="btn icon" onclick="tap(()=>toggleFavorite(),'soft')" title="Favorito">⭐</button>
+<button class="btn icon" onclick="tap(()=>shuffleDeck(),'soft')" title="Barajar">🔀</button>
+<button class="btn small" style="flex:1" onclick="tap(()=>go('modes'),'soft')">Cambiar modo</button>
+</div>
+<div class="spacer"></div>
+<button class="btn ghost" onclick="tap(()=>go('favorites'),'soft')">Ver favoritos</button>
+</div>
+</section>
+
+<!-- AJUSTES -->
+<section id="settings" class="screen">
+<header>
+<h1>Ajustes</h1>
+<div class="sub">Haptic, sonido y alcohol opcional.</div>
+</header>
+
+<div class="card">
+<div class="cardTitle">Efectos</div>
+
+<div class="toggleRow">
+<label for="vibeOn">Vibración</label>
+<div class="switch"><input id="vibeOn" type="checkbox" /></div>
+</div>
+
+<div class="toggleRow">
+<label for="soundOn">Sonidos</label>
+<div class="switch"><input id="soundOn" type="checkbox" /></div>
+</div>
+
+<div class="toggleRow">
+<label for="tickOn">Tick cada segundo</label>
+<div class="switch"><input id="tickOn" type="checkbox" /></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="cardTitle">Modo alcohol</div>
+<select id="alcoholMode">
+<option value="off">Off</option>
+<option value="sorbos">Sorbos</option>
+<option value="shots">Shots 🥃</option>
+</select>
+
+<div class="divider"></div>
+
+<button class="btn primary" onclick="tap(()=>saveSettingsAndBack(),'soft')">Guardar</button>
+<div class="spacer"></div>
+<button class="btn ghost" onclick="tap(()=>go('modes'),'soft')">Volver</button>
+
+<div class="spacer"></div>
+<div class="smallNote">
+Nota: en iPhone, los sonidos requieren interacción (tocar un botón).<br/>
+Todo se guarda localmente.
+</div>
+</div>
+</section>
+
+<!-- FAVORITOS -->
+<section id="favorites" class="screen">
+<header>
+<h1>Favoritos</h1>
+<div class="sub">Tus cartas guardadas.</div>
+</header>
+
+<div class="card" id="favList"></div>
+<button class="btn ghost" onclick="tap(()=>go('game'),'soft')">Volver al juego</button>
 </section>
 
 <!-- NAV -->
-<nav>
-  <div onclick="go('home')" id="nHome" class="active">Inicio</div>
-  <div onclick="go('modes')" id="nModes">Modos</div>
-  <div onclick="go('game')" id="nGame">Juego</div>
+<nav class="bottomNav">
+<div class="navItem active" id="navHome" onclick="tap(()=>go('home'),'soft')">
+<span class="navIcon">🏠</span>Inicio
+</div>
+<div class="navItem" id="navModes" onclick="tap(()=>go('modes'),'soft')">
+<span class="navIcon">🎮</span>Modos
+</div>
+<div class="navItem" id="navSettings" onclick="tap(()=>go('settings'),'soft')">
+<span class="navIcon">⚙️</span>Ajustes
+</div>
 </nav>
 
 <script>
-/* SPLASH */
+/* =========================
+SPLASH LOGIC
+========================= */
+window.addEventListener("load", ()=>{
+const splash = document.getElementById("splash");
+// tiempo de carga visible
 setTimeout(()=>{
-  document.getElementById('splash').style.display='none';
-  go('home');
-},2000);
+splash.classList.add("hide");
+setTimeout(()=>{ splash.remove(); }, 600);
+}, 1600);
+});
 
-/* DATA */
-let players=[
-  {name:'Jugador 1',gender:'f',color:'var(--pink)'},
-  {name:'Jugador 2',gender:'m',color:'var(--blue)'}
-];
-let turn=0;
-let timerInt=null;
-let time=60;
-
-const cards={
-  suave:["Respiren juntos sin hablar.","Tómense de la mano."],
-  medio:["Acercate lento.","Guiá sin palabras."],
-  intenso:["Uno guía, el otro sigue.","Silencio total 60s."]
+/* =========================
+CARTAS (ejemplo)
+(después sumamos las 40 por nivel)
+========================= */
+const CARDS = {
+suave: [
+{ t:"Respiren juntos/as sin hablar.", sec:60 },
+{ t:"Decile algo que te gusta de su forma de ser." },
+{ t:"Mirá a tu pareja 20 segundos sin decir nada.", sec:20 },
+{ t:"Tomale la mano y guiá el movimiento lentamente.", sec:30 },
+{ t:"Cerrá los ojos y dejate guiar por 15 segundos.", sec:15 },
+{ t:"🥃 Brinden con un sorbo y mírense sin hablar.", a:true, sec:10 }
+],
+medio: [
+{ t:"Acercate despacio y frená justo antes del contacto.", sec:15 },
+{ t:"Guiá a tu pareja sin usar palabras.", sec:30 },
+{ t:"Hacé que todo sea más lento de lo normal.", sec:30 },
+{ t:"Decí algo que te gustaría que pase esta noche." },
+{ t:"🥃 Si dudás antes de decidir, tomá un shot y elegí.", a:true },
+{ t:"🥃 El que rompa el silencio toma un sorbo.", a:true, sec:30 }
+],
+intenso: [
+{ t:"Uno guía, el otro sigue sin preguntar.", sec:60 },
+{ t:"Un minuto sin palabras.", sec:60 },
+{ t:"Tomá el control del ritmo por 45 segundos.", sec:45 },
+{ t:"Decí claramente qué querés ahora." },
+{ t:"Hacé que tu pareja espere un poco más.", sec:20 },
+{ t:"🥃 Shot juntos/as. Después, uno manda el próximo turno.", a:true }
+]
 };
 
-/* NAV */
+const WILDS = [
+{ t:"COMODÍN: más lento. Repetí la última carta, pero a la mitad de velocidad." },
+{ t:"COMODÍN: silencio total por 45 segundos.", sec:45 },
+{ t:"COMODÍN: intercambio. Cambien quién guía por esta ronda." }
+];
+
+/* =========================
+ESTADO
+========================= */
+let players = [
+{ name:"Jugador 1", gender:"f", color:getGenderColor("f") },
+{ name:"Jugador 2", gender:"m", color:getGenderColor("m") }
+];
+let turn = 0;
+
+let currentMode = null; // suave | medio | intenso | progresivo
+let currentLevel = "intenso";
+
+let deck = [];
+let idx = 0;
+
+let timer = null;
+let timeLeft = 60;
+
+/* =========================
+STORAGE
+========================= */
+const K_PLAYERS = "ajdd_players_v2";
+const K_SETTINGS = "ajdd_settings_v2";
+const K_FAVS = "ajdd_favs_v2";
+
+/* =========================
+SETTINGS
+========================= */
+let settings = {
+vibe:true,
+sound:true,
+tick:false,
+alcohol:"off"
+};
+
+/* =========================
+NAV
+========================= */
+function setActiveNav(id){
+document.getElementById("navHome").classList.remove("active");
+document.getElementById("navModes").classList.remove("active");
+document.getElementById("navSettings").classList.remove("active");
+
+if(id==="home") document.getElementById("navHome").classList.add("active");
+if(id==="modes" || id==="game" || id==="favorites") document.getElementById("navModes").classList.add("active");
+if(id==="settings") document.getElementById("navSettings").classList.add("active");
+}
+
 function go(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav div').forEach(n=>n.classList.remove('active'));
-  if(id==='home')nHome.classList.add('active');
-  if(id==='modes')nModes.classList.add('active');
-  if(id==='game')nGame.classList.add('active');
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+setActiveNav(id);
+
+if(id==="settings") loadSettingsUI();
+if(id==="favorites") renderFavs();
+
+// si tocan "Juego" sin modo elegido, los mandamos a Modos
+if(id==="game" && !currentMode){
+go("modes");
+}
 }
 
-/* PLAYERS */
-function colorByGender(g){
-  if(g==='f')return 'var(--pink)';
-  if(g==='m')return 'var(--blue)';
-  return 'var(--violet)';
-}
-function savePlayers(){
-  players=[
-    {name:p1Name.value||'Jugador 1',gender:p1Gender.value,color:colorByGender(p1Gender.value)},
-    {name:p2Name.value||'Jugador 2',gender:p2Gender.value,color:colorByGender(p2Gender.value)}
-  ];
-  go('modes');
+/* =========================
+GENDER COLORS
+========================= */
+function getGenderColor(g){
+const css = getComputedStyle(document.documentElement);
+if(g==="f") return css.getPropertyValue("--pink").trim() || "#D06C5A";
+if(g==="m") return css.getPropertyValue("--blue").trim() || "#2A7BD6";
+return css.getPropertyValue("--violet").trim() || "#8A63D2";
 }
 
-/* GAME */
-let deck=[],i=0;
-function start(mode){
-  deck=[...cards[mode]];
-  i=0;
-  document.getElementById('level').innerText=mode.toUpperCase();
-  render();
-  go('game');
-}
-function render(){
-  document.getElementById('turnName').innerText=players[turn].name;
-  document.documentElement.style.setProperty('--playerColor',players[turn].color);
-  document.getElementById('cardText').innerText=deck[i];
-  time=60;
-  document.getElementById('timer').innerText=time;
-}
-function next(){
-  turn=turn?0:1;
-  i=(i+1)%deck.length;
-  render();
+/* =========================
+PLAYERS
+========================= */
+function savePlayersAndGoModes(){
+const p1n = document.getElementById("p1Name").value.trim() || "Jugador 1";
+const p2n = document.getElementById("p2Name").value.trim() || "Jugador 2";
+const p1g = document.getElementById("p1Gender").value;
+const p2g = document.getElementById("p2Gender").value;
+
+players = [
+{ name:p1n, gender:p1g, color:getGenderColor(p1g) },
+{ name:p2n, gender:p2g, color:getGenderColor(p2g) }
+];
+localStorage.setItem(K_PLAYERS, JSON.stringify(players));
+go("modes");
 }
 
-/* TIMER */
+function loadPlayers(){
+try{
+const raw = localStorage.getItem(K_PLAYERS);
+if(!raw) return;
+const arr = JSON.parse(raw);
+if(Array.isArray(arr) && arr.length===2){
+players = arr.map(p => ({
+name: p.name || "Jugador",
+gender: p.gender || "x",
+color: getGenderColor(p.gender || "x")
+}));
+}
+}catch(e){}
+}
+
+/* =========================
+SETTINGS STORE/UI
+========================= */
+function loadSettings(){
+try{
+const raw = localStorage.getItem(K_SETTINGS);
+if(raw){
+const s = JSON.parse(raw);
+settings = { ...settings, ...s };
+}
+}catch(e){}
+}
+function saveSettings(){
+localStorage.setItem(K_SETTINGS, JSON.stringify(settings));
+}
+function loadSettingsUI(){
+document.getElementById("vibeOn").checked = !!settings.vibe;
+document.getElementById("soundOn").checked = !!settings.sound;
+document.getElementById("tickOn").checked = !!settings.tick;
+document.getElementById("alcoholMode").value = settings.alcohol || "off";
+}
+function saveSettingsAndBack(){
+settings.vibe = document.getElementById("vibeOn").checked;
+settings.sound = document.getElementById("soundOn").checked;
+settings.tick = document.getElementById("tickOn").checked;
+settings.alcohol = document.getElementById("alcoholMode").value;
+saveSettings();
+go("modes");
+}
+
+/* =========================
+FX
+========================= */
+function haptic(kind="soft"){
+if(!settings.vibe) return;
+if(!navigator.vibrate) return;
+const p = (kind==="next") ? [12,20,12] : (kind==="end") ? [30,30,30] : [10];
+navigator.vibrate(p);
+}
+
+let audioCtx = null;
+function tone(freq=440, dur=0.06, gain=0.03){
+if(!settings.sound) return;
+try{
+audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+const o = audioCtx.createOscillator();
+const g = audioCtx.createGain();
+o.type = "sine";
+o.frequency.value = freq;
+g.gain.value = gain;
+o.connect(g); g.connect(audioCtx.destination);
+o.start();
+setTimeout(()=>o.stop(), dur*1000);
+}catch(e){}
+}
+
+function tap(fn, kind="soft"){
+haptic(kind);
+if(kind==="next") tone(520,0.05,0.028);
+else tone(460,0.045,0.02);
+fn();
+}
+
+/* =========================
+DECK / MODOS
+========================= */
+function shuffleArray(arr){
+for(let i=arr.length-1;i>0;i--){
+const j = Math.floor(Math.random()*(i+1));
+[arr[i],arr[j]]=[arr[j],arr[i]];
+}
+return arr;
+}
+
+function buildDeck(level){
+let base = CARDS[level].map(c=>({ ...c, level }));
+
+// alcohol OFF: filtramos cartas marcadas a:true
+if(settings.alcohol === "off"){
+base = base.filter(c => !c.a);
+}
+
+// 1 comodín
+const wild = { ...WILDS[Math.floor(Math.random()*WILDS.length)], level, wild:true };
+base.push(wild);
+
+return shuffleArray(base);
+}
+
+let progLevels = ["suave","medio","intenso"];
+let progIndex = 0;
+let progDecks = { suave:[], medio:[], intenso:[] };
+
+function initProgressive(){
+progDecks.suave = buildDeck("suave");
+progDecks.medio = buildDeck("medio");
+progDecks.intenso = buildDeck("intenso");
+progIndex = 0;
+currentLevel = progLevels[progIndex];
+deck = progDecks[currentLevel];
+idx = 0;
+}
+
+function startMode(mode){
+currentMode = mode;
+turn = 0;
+stopTimer(true);
+
+if(mode==="progresivo"){
+initProgressive();
+} else {
+currentLevel = mode;
+deck = buildDeck(mode);
+idx = 0;
+}
+go("game");
+renderGame();
+}
+
+/* =========================
+RENDER GAME
+========================= */
+function applyPlayerTheme(){
+const p = players[turn];
+document.documentElement.style.setProperty("--playerTint", p.color);
+document.documentElement.style.setProperty("--playerColor", p.color);
+}
+
+function renderGame(){
+const p = players[turn];
+applyPlayerTheme();
+
+document.getElementById("levelTxt").innerText = currentLevel.toUpperCase();
+document.getElementById("turnName").innerText = p.name;
+
+document.getElementById("modeTxt").innerText =
+(currentMode==="progresivo") ? "Modo: progresivo" : `Modo: ${currentMode}`;
+
+const c = deck[idx];
+document.getElementById("cardTxt").innerText = c?.t || "—";
+document.getElementById("counterTxt").innerText = `Carta ${idx+1} / ${deck.length}`;
+
+// timer por carta
+const seconds = c?.sec ? Number(c.sec) : 60;
+timeLeft = seconds;
+document.getElementById("timerNum").innerText = timeLeft;
+}
+
+function nextCard(){
+// alterna turno
+turn = (turn===0)?1:0;
+
+idx++;
+
+if(idx >= deck.length){
+if(currentMode==="progresivo"){
+progIndex++;
+if(progIndex >= progLevels.length){
+initProgressive();
+} else {
+currentLevel = progLevels[progIndex];
+deck = progDecks[currentLevel];
+idx = 0;
+}
+} else {
+deck = buildDeck(currentLevel);
+idx = 0;
+}
+}
+
+stopTimer(true);
+renderGame();
+}
+
+function shuffleDeck(){
+deck = shuffleArray(deck);
+idx = 0;
+stopTimer(true);
+renderGame();
+}
+
+/* =========================
+TIMER
+========================= */
 function startTimer(){
-  if(timerInt)return;
-  timerInt=setInterval(()=>{
-    time--;
-    document.getElementById('timer').innerText=time;
-    if(time<=0){pauseTimer();}
-  },1000);
+if(timer) return;
+tone(520,0.05,0.03);
+
+timer = setInterval(()=>{
+timeLeft--;
+document.getElementById("timerNum").innerText = timeLeft;
+
+if(settings.tick && timeLeft > 0){
+tone(800,0.02,0.008);
 }
+
+if(timeLeft <= 0){
+tone(280,0.14,0.05);
+haptic("end");
+stopTimer(false);
+}
+},1000);
+}
+
 function pauseTimer(){
-  clearInterval(timerInt);
-  timerInt=null;
+stopTimer(false);
 }
+
+function stopTimer(reset){
+if(timer){
+clearInterval(timer);
+timer = null;
+}
+if(reset){
+const c = deck[idx];
+const seconds = c?.sec ? Number(c.sec) : 60;
+timeLeft = seconds;
+const el = document.getElementById("timerNum");
+if(el) el.innerText = timeLeft;
+}
+}
+
+/* =========================
+FAVORITOS
+========================= */
+function loadFavs(){
+try{ return JSON.parse(localStorage.getItem(K_FAVS) || "[]"); }
+catch{ return []; }
+}
+function saveFavs(list){
+localStorage.setItem(K_FAVS, JSON.stringify(list));
+}
+function toggleFavorite(){
+const c = deck[idx];
+if(!c) return;
+const id = `${c.level}::${c.t}`;
+const list = loadFavs();
+const exists = list.find(x=>x.id===id);
+if(exists){
+saveFavs(list.filter(x=>x.id!==id));
+alert("Quitado de favoritos");
+} else {
+list.push({ id, level:c.level, text:c.t });
+saveFavs(list);
+alert("Guardado en favoritos");
+}
+}
+function renderFavs(){
+const list = loadFavs();
+const box = document.getElementById("favList");
+if(!list.length){
+box.innerHTML = `<div class="smallNote">Todavía no guardaste favoritos.</div>`;
+return;
+}
+box.innerHTML = list.map(f=>`
+<div style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+<div class="badge" style="margin-bottom:8px">${(f.level||"").toUpperCase()}</div>
+<div style="font-size:1.05rem;line-height:1.35">${escapeHtml(f.text)}</div>
+<div style="margin-top:10px">
+<button class="btn small ghost" onclick="tap(()=>removeFav('${escapeAttr(f.id)}'),'soft')">Eliminar</button>
+</div>
+</div>
+`).join("");
+}
+function removeFav(id){
+const list = loadFavs();
+saveFavs(list.filter(x=>x.id!==id));
+renderFavs();
+}
+
+function escapeHtml(str){
+return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+function escapeAttr(str){
+return String(str).replaceAll("\\","\\\\").replaceAll("'","\\'");
+}
+
+/* =========================
+INIT
+========================= */
+loadPlayers();
+loadSettings();
+
+// precargar inputs
+document.getElementById("p1Name").value = players[0].name || "";
+document.getElementById("p2Name").value = players[1].name || "";
+document.getElementById("p1Gender").value = players[0].gender || "f";
+document.getElementById("p2Gender").value = players[1].gender || "m";
 </script>
 
 </body>
